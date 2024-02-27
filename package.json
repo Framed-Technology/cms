@@ -7,7 +7,8 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "deploy": "gcloud run deploy cms --source . --region us-central1"
   },
   "devDependencies": {},
   "dependencies": {
