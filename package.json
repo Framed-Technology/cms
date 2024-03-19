@@ -8,6 +8,7 @@
     "start": "strapi start",
     "build": "strapi build",
     "strapi": "strapi",
+    "auth": "gcloud auth application-default login",
     "deploy": "gcloud run deploy cms --source . --region us-central1"
   },
   "dependencies": {
