@@ -1,0 +1,66 @@
+{
+  "kind": "collectionType",
+  "collectionName": "paths",
+  "info": {
+    "singularName": "path",
+    "pluralName": "paths",
+    "displayName": "Path"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
+      "minLength": 5,
+      "unique": true
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "minLength": 5
+    },
+    "description": {
+      "type": "text",
+      "minLength": 10,
+      "maxLength": 150
+    },
+    "level": {
+      "type": "enumeration",
+      "enum": [
+        "Level 1",
+        "Level 2",
+        "Level 3",
+        "Level 4",
+        "Level 5",
+        "Level 6",
+        "Level 7",
+        "Level 8",
+        "Level 9",
+        "Level 10"
+      ]
+    },
+    "isFree": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::article.article",
+      "mappedBy": "path"
+    }
+  }
+}

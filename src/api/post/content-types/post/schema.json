@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "articles",
+  "collectionName": "posts",
   "info": {
-    "singularName": "article",
-    "pluralName": "articles",
-    "displayName": "Article"
+    "singularName": "post",
+    "pluralName": "posts",
+    "displayName": "Post"
   },
   "options": {
     "draftAndPublish": true
@@ -13,18 +13,10 @@
   "attributes": {
     "slug": {
       "type": "string",
-      "required": true,
       "minLength": 5,
-      "maxLength": 50
-    },
-    "path": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::path.path",
-      "inversedBy": "articles"
-    },
-    "index": {
-      "type": "integer"
+      "unique": true,
+      "maxLength": 50,
+      "required": true
     },
     "title": {
       "type": "string",
@@ -33,6 +25,7 @@
     },
     "subTitle": {
       "type": "text",
+      "required": true,
       "minLength": 5,
       "maxLength": 300
     },
@@ -54,7 +47,8 @@
         "images"
       ],
       "type": "media",
-      "multiple": false
+      "multiple": false,
+      "required": false
     },
     "authorAvatar": {
       "allowedTypes": [
@@ -64,8 +58,7 @@
       "multiple": false
     },
     "authorName": {
-      "type": "string",
-      "required": false
+      "type": "string"
     }
   }
 }

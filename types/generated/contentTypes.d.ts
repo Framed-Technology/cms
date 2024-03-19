@@ -362,41 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiArticleArticle extends Schema.CollectionType {
-  collectionName: 'articles';
-  info: {
-    singularName: 'article';
-    pluralName: 'articles';
-    displayName: 'Article';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    description: Attribute.Text;
-    thumbnail: Attribute.Media;
-    authorAvatar: Attribute.Media;
-    articleMarkdown: Attribute.RichText;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::article.article',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::article.article',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -818,6 +783,188 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiArticleArticle extends Schema.CollectionType {
+  collectionName: 'articles';
+  info: {
+    singularName: 'article';
+    pluralName: 'articles';
+    displayName: 'Article';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    slug: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 5;
+        maxLength: 50;
+      }>;
+    path: Attribute.Relation<
+      'api::article.article',
+      'manyToOne',
+      'api::path.path'
+    >;
+    index: Attribute.Integer;
+    title: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        minLength: 5;
+        maxLength: 50;
+      }>;
+    subTitle: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        minLength: 5;
+        maxLength: 300;
+      }>;
+    description: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        minLength: 5;
+        maxLength: 150;
+      }>;
+    content: Attribute.RichText & Attribute.Required;
+    minsToRead: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
+    thumbnail: Attribute.Media;
+    authorAvatar: Attribute.Media;
+    authorName: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::article.article',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::article.article',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPathPath extends Schema.CollectionType {
+  collectionName: 'paths';
+  info: {
+    singularName: 'path';
+    pluralName: 'paths';
+    displayName: 'Path';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    slug: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        minLength: 5;
+        maxLength: 50;
+      }>;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        minLength: 5;
+      }>;
+    description: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        minLength: 10;
+        maxLength: 150;
+      }>;
+    level: Attribute.Enumeration<
+      [
+        'Level 1',
+        'Level 2',
+        'Level 3',
+        'Level 4',
+        'Level 5',
+        'Level 6',
+        'Level 7',
+        'Level 8',
+        'Level 9',
+        'Level 10'
+      ]
+    >;
+    isFree: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
+    image: Attribute.Media;
+    articles: Attribute.Relation<
+      'api::path.path',
+      'oneToMany',
+      'api::article.article'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::path.path', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::path.path', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPostPost extends Schema.CollectionType {
+  collectionName: 'posts';
+  info: {
+    singularName: 'post';
+    pluralName: 'posts';
+    displayName: 'Post';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    slug: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMaxLength<{
+        minLength: 5;
+        maxLength: 50;
+      }>;
+    title: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        minLength: 5;
+        maxLength: 50;
+      }>;
+    subTitle: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 5;
+        maxLength: 300;
+      }>;
+    description: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        minLength: 5;
+        maxLength: 150;
+      }>;
+    content: Attribute.RichText & Attribute.Required;
+    minsToRead: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
+    thumbnail: Attribute.Media;
+    authorAvatar: Attribute.Media;
+    authorName: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::post.post', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::post.post', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -828,7 +975,6 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::article.article': ApiArticleArticle;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -837,6 +983,9 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::article.article': ApiArticleArticle;
+      'api::path.path': ApiPathPath;
+      'api::post.post': ApiPostPost;
     }
   }
 }

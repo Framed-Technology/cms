@@ -50,6 +50,7 @@ module.exports = ({ env }) => {
     postgres: {
       connection: {
         connectionString: env('DATABASE_URL'),
+        acquireConnectionTimeout: env("ACQUIRE_CONNECTION_TIMEOUT"),
         host: env('DATABASE_HOST', 'localhost'),
         port: env.int('DATABASE_PORT', 5432),
         database: env('DATABASE_NAME', 'strapi'),
